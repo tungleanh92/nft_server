@@ -14,6 +14,7 @@ module.exports.getProduct = async function (req, res) {
                     });
                 }
             })
+            console.log(docs);
             return res.status(200).json({ success: true, data: { totalProducts: countProduct, productList: docs } });
         } else {
             let query = {};
@@ -32,6 +33,7 @@ module.exports.getProduct = async function (req, res) {
                     });
                 }
             })
+            console.log(docs);
             return res.status(200).json({ success: true, data: { totalProducts: countProduct, productList: docs } });
         }
     } else {
