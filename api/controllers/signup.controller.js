@@ -1,7 +1,7 @@
 const User = require('../../models/user.model')
 module.exports.signup = function (req, res) {
     if (!req.body.username || !req.body.password) {
-        res.json({ status: 400, msg: 'Please pass username and password.' });
+        return res.status(400).json({ success: false, msg: 'Username and password required.' });
     } else {
         let newUser = new User({
             username: req.body.username,
