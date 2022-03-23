@@ -40,10 +40,6 @@ const CustomerSchema = new mongoose.Schema({
     comment: {
         type: String,
     },
-    optionPayment: {
-        type: String,
-        required: true
-    },
     cart: [{
         id: mongoose.Schema.Types.ObjectId,
         name: String,
