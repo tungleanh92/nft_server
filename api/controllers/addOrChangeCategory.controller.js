@@ -1,12 +1,14 @@
+const database = require('../../config/database')
 const Category = require('../../models/category.model')
 
 module.exports.addOrChangeCategory = async function (req, res) {
-    if (req.body.id) {
+    let data = req.body.data
+    if (data.id) {
         let updateCategory = {
-            name: req.body.name,
+            name: data.name,
         }
         await Category.findOneAndUpdate(
-            { _id: req.body.id },
+            { _id: data.id },
             { $set: updateCategory },
             { new: false, passRawResult: true },
             (err) => {
@@ -20,7 +22,7 @@ module.exports.addOrChangeCategory = async function (req, res) {
             })
     } else {
         let newCategory = new Category({
-            name: req.body.name
+            name: data.name
         });
         newCategory.save(function (err) {
             if (err) {

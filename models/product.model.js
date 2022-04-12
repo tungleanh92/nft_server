@@ -27,7 +27,7 @@ const ProductSchema = new mongoose.Schema({
     },
     popularPoint: {
         type: Number,
-        required: true
+        default: 0
     },
     description: {
         type: String,

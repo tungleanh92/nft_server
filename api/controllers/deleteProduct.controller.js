@@ -1,8 +1,10 @@
 const Product = require('../../models/product.model')
+var mongodb = require('mongodb');
 
 module.exports.deleteProduct = async function (req, res) {
-    if (req.body.id) {
-        await Product.deleteOne({ id: req.body.id },
+    if (req.body.data) {
+        console.log(req.body.data);
+        await Product.deleteOne({ _id: new mongodb.ObjectID(req.body.data) },
             (err) => {
                 if (err) {
                     return res.status(err.status || 500).json({

@@ -1,12 +1,13 @@
 const Color = require('../../models/color.model')
 
 module.exports.addOrChangeColor = async function (req, res) {
-    if (req.body.id) {
+    let data = req.body.data
+    if (data.id) {
         let updateColor = {
-            name: req.body.name,
+            name: data.name,
         }
         await Color.findOneAndUpdate(
-            { _id: req.body.id },
+            { _id: data.id },
             { $set: updateColor },
             { new: false, passRawResult: true },
             (err) => {
@@ -20,7 +21,7 @@ module.exports.addOrChangeColor = async function (req, res) {
             })
     } else {
         let newColor = new Color({
-            name: req.body.name
+            name: data.name
         });
         newColor.save(function (err) {
             if (err) {

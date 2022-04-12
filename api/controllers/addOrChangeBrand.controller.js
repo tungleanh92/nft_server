@@ -1,12 +1,13 @@
 const Brand = require('../../models/brand.model')
 
 module.exports.addOrChangeBrand = async function (req, res) {
-    if (req.body.id) {
+    let data = req.body.data
+    if (data.id) {
         let updateBrand = {
-            name: req.body.name,
+            name: data.name,
         }
         await Brand.findOneAndUpdate(
-            { _id: req.body.id },
+            { _id: data.id },
             { $set: updateBrand },
             { new: false, passRawResult: true },
             (err) => {
@@ -20,7 +21,7 @@ module.exports.addOrChangeBrand = async function (req, res) {
             })
     } else {
         let newBrand = new Brand({
-            name: req.body.name
+            name: data.name
         });
         newBrand.save(function (err) {
             if (err) {
