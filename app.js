@@ -50,6 +50,9 @@ app.use(express.json());
 app.use('/uploads', express.static('uploads'));
 
 //admin
+app.use('/ping', function (req, res) {
+    return res.status(200).json({ success: true, msg: 'pong' });
+})
 app.use('/api/signup', apiSignup);
 app.use('/api/login', apiLogin);
 app.use('/api/addOrChangeProduct', authToken.checkToken, authToken.protectedRoute, apiAddOrChangeProduct);
