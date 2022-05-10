@@ -29,7 +29,7 @@ const apiSubscribeEmail = require('./api/routes/subscribeEmail.route')
 
 const authToken = require('./middlewares/auth.middleware');
 
-const PORT = 4000;
+const PORT = process.env.PORT || 4000;
 
 let app = express();
 
