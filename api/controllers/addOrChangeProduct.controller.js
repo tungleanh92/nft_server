@@ -11,11 +11,18 @@ module.exports.addOrChangeProduct = async function (req, res) {
             category: req.body.category,
             price: req.body.price,
             quantity: req.body.quantity,
-            image: req.body.image,
+            image: [],
             color: req.body.color,
             views: req.body.views ? req.body.views : 0,
             description: req.body.description
         }
+
+        for (let eachFile of req.files.files) {
+            const fileName = eachFile.name;
+            updateProduct.image.push({ name: fileName });
+            await eachFile.mv('./uploads/' + fileName);
+        }
+
         await Product.findOneAndUpdate(
             { _id: req.body.id },
             { $set: updateProduct },
