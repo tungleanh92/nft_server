@@ -1,4 +1,7 @@
 const Product = require('../../models/product.model')
+const path = require("path");
+const multer = require("multer");
+const util = require("util");
 
 module.exports.addOrChangeProduct = async function (req, res) {
     if (req.body.id) {
@@ -10,7 +13,7 @@ module.exports.addOrChangeProduct = async function (req, res) {
             quantity: req.body.quantity,
             image: req.body.image,
             color: req.body.color,
-            views: req.body.views,
+            views: req.body.views ? req.body.views : 0,
             description: req.body.description
         }
         await Product.findOneAndUpdate(
@@ -34,17 +37,18 @@ module.exports.addOrChangeProduct = async function (req, res) {
             price: req.body.price,
             quantity: req.body.quantity,
             color: req.body.color,
-            views: req.body.views,
+            views: 0,
             image: [],
             description: req.body.description
         });
 
-        for (let i in req.files.image) {
-            let image = req.files.image[i];
-            newProduct.image.push({ name: image.name });
-            image.mv('./uploads/' + image.name);
+        for (let eachFile of req.files.files) {
+            const fileName = eachFile.name;
+            newProduct.image.push({ name: fileName });
+            await eachFile.mv('./uploads/' + fileName);
         }
-        newProduct.save(function (err) {
+
+        await newProduct.save(function (err) {
             if (err) {
                 return res.status(err.status || 500).json({
                     message: err.message,
