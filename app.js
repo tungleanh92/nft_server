@@ -71,7 +71,6 @@ app.use('/api/getCCB', apiGetCCB);
 app.use('/api/submitCartForm', apiSubmitCartForm);
 app.use('/api/addPopularPoint', apiAddPopularPoint)
 app.use('/api/subscribeEmail', apiSubscribeEmail)
-app.use('/api/subscribeEmail', apiSubscribeEmail)
 
 app.listen(PORT, () => {
     console.log(`Example app listening at http://localhost:${PORT}`)
