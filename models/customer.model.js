@@ -40,6 +40,10 @@ const CustomerSchema = new mongoose.Schema({
     comment: {
         type: String,
     },
+    delivered: {
+        type: Boolean,
+        default: false,
+    },
     cart: [{
         id: mongoose.Schema.Types.ObjectId,
         name: String,

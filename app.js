@@ -20,6 +20,8 @@ const apiAddOrChangeColor = require('./api/routes/addOrChangeColor.route')
 const apiAddOrChangeCategory = require('./api/routes/addOrChangeCategory.route')
 const apiAddOrChangeBrand = require('./api/routes/addOrChangeBrand.route')
 const apiDeleteProduct = require('./api/routes/deleteProduct.route')
+const apiGetBills = require('./api/routes/getBills.route')
+const apiSetDelivered = require('./api/routes/deliver.route')
 
 const apiGetCCB = require('./api/routes/getCCB.route')
 const apiGetProduct = require('./api/routes/getProduct.route')
@@ -60,12 +62,15 @@ app.use('/api/addOrChangeColor', authToken.checkToken, authToken.protectedRoute,
 app.use('/api/addOrChangeCategory', authToken.checkToken, authToken.protectedRoute, apiAddOrChangeCategory);
 app.use('/api/addOrChangeBrand', authToken.checkToken, authToken.protectedRoute, apiAddOrChangeBrand);
 app.use('/api/deleteProduct', authToken.checkToken, authToken.protectedRoute, apiDeleteProduct);
+app.use('/api/getBills', authToken.checkToken, authToken.protectedRoute, apiGetBills);
+app.use('/api/setDelivered', authToken.checkToken, authToken.protectedRoute, apiSetDelivered);
 
 //client
 app.use('/api/getProduct', apiGetProduct);
 app.use('/api/getCCB', apiGetCCB);
 app.use('/api/submitCartForm', apiSubmitCartForm);
 app.use('/api/addPopularPoint', apiAddPopularPoint)
+app.use('/api/subscribeEmail', apiSubscribeEmail)
 app.use('/api/subscribeEmail', apiSubscribeEmail)
 
 app.listen(PORT, () => {
