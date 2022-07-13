@@ -16,6 +16,6 @@ module.exports.setDelivered = async function (req, res) {
                 return res.status(200).json({ success: true, msg: "Order is being delivered" });
             })
     } else {
-        return res.status(400).json({ success: false, msg: 'Customer id required' });
+        return res.status(400).json({ success: false, msg: 'Bill id required' });
     }
 }
