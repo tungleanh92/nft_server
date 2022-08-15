@@ -4,30 +4,21 @@ const express = require('express');
 const logger = require('morgan');
 const fileUpload = require('express-fileupload');
 const cors = require('cors');
+const bodyParser = require('body-parser');
 
 const passport = require('passport');
 const config = require('./config/database');
 const mongoose = require('mongoose');
 
-mongoose.connect(config.database, { useCreateIndex: true, useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(config.database, { useCreateIndex: true, useNewUrlParser: true, useUnifiedTopology: true }).then(
+    () => { console.log('Database connected...'); },
+    err => { console.log(err); }
+);
 
 mongoose.set('useFindAndModify', false);
 
-const apiSignup = require('./api/routes/signup.route')
-const apiLogin = require('./api/routes/login.route')
-const apiAddOrChangeProduct = require('./api/routes/addOrChangeProduct.route')
-const apiAddOrChangeColor = require('./api/routes/addOrChangeColor.route')
-const apiAddOrChangeCategory = require('./api/routes/addOrChangeCategory.route')
-const apiAddOrChangeBrand = require('./api/routes/addOrChangeBrand.route')
-const apiDeleteProduct = require('./api/routes/deleteProduct.route')
-const apiGetBills = require('./api/routes/getBills.route')
-const apiSetDelivered = require('./api/routes/deliver.route')
-
-const apiGetCCB = require('./api/routes/getCCB.route')
-const apiGetProduct = require('./api/routes/getProduct.route')
-const apiSubmitCartForm = require('./api/routes/submitCartForm.route')
-const apiAddPopularPoint = require('./api/routes/addPopular.route.js')
-const apiSubscribeEmail = require('./api/routes/subscribeEmail.route')
+const apiUpdateUser = require('./api/routes/updateUser.route')
+const apiGetUser = require('./api/routes/getUser.route')
 
 const authToken = require('./middlewares/auth.middleware');
 
@@ -35,42 +26,29 @@ const PORT = process.env.PORT || 4000;
 
 let app = express();
 
+app.use(cors({
+    origin: 'http://localhost:3000',
+}));
 app.use(fileUpload({
     createParentPath: true,
     limits: {
         fileSize: 2 * 1024 * 1024 * 1024 //2MB max file(s) size
     },
 }));
-app.use(cors());
 app.use(passport.initialize());
 
 app.use(logger('dev'));
 // for parsing application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 // for parsing application/json
 app.use(express.json());
 app.use('/uploads', express.static('uploads'));
 
-//admin
-app.use('/ping', function (req, res) {
-    return res.status(200).json({ success: true, msg: 'pong' });
-})
-app.use('/api/signup', apiSignup);
-app.use('/api/login', apiLogin);
-app.use('/api/addOrChangeProduct', authToken.checkToken, authToken.protectedRoute, apiAddOrChangeProduct);
-app.use('/api/addOrChangeColor', authToken.checkToken, authToken.protectedRoute, apiAddOrChangeColor);
-app.use('/api/addOrChangeCategory', authToken.checkToken, authToken.protectedRoute, apiAddOrChangeCategory);
-app.use('/api/addOrChangeBrand', authToken.checkToken, authToken.protectedRoute, apiAddOrChangeBrand);
-app.use('/api/deleteProduct', authToken.checkToken, authToken.protectedRoute, apiDeleteProduct);
-app.use('/api/getBills', authToken.checkToken, authToken.protectedRoute, apiGetBills);
-app.use('/api/setDelivered', authToken.checkToken, authToken.protectedRoute, apiSetDelivered);
-
 //client
-app.use('/api/getProduct', apiGetProduct);
-app.use('/api/getCCB', apiGetCCB);
-app.use('/api/submitCartForm', apiSubmitCartForm);
-app.use('/api/addPopularPoint', apiAddPopularPoint)
-app.use('/api/subscribeEmail', apiSubscribeEmail)
+app.use('/api/getUser', apiGetUser);
+app.use('/api/updateUser', apiUpdateUser);
 
 app.listen(PORT, () => {
     console.log(`Example app listening at http://localhost:${PORT}`)
